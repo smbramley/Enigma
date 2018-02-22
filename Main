@@ -1,0 +1,30 @@
+package BramleyP5A;
+
+import javax.swing.JFrame;
+
+/**
+ *
+ * @author Shane
+ */
+public class MainP5A {
+
+    private final EnigmaFrame frame;
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+         MainP5A app = new MainP5A();
+    }
+    
+    public MainP5A()
+    {
+        frame = new EnigmaFrame();
+        frame.setTitle("BramleyP5A");
+	frame.setSize(555, 630);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+	frame.setVisible(true);
+    }
+    
+}
