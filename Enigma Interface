@@ -1,0 +1,16 @@
+package BramleyP5A;
+
+/**
+ *
+ * @author Shane
+ */
+interface EnigmaInterface 
+{
+    
+    public void setMessage(String s, int k);
+    public void setMessage(String s);
+    public void setCodedMessage(String s, int k);
+    public String getCodedMessage();
+    //public String getDecodedMessage();
+    public int getKey();
+}
