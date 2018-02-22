@@ -1,0 +1,181 @@
+package BramleyP5A;
+
+import java.util.Random;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Shane
+ */
+
+public class Enigma implements EnigmaInterface 
+
+{
+    
+    
+    //Create Random Object for a random number generator
+    Random rand;
+     //Declare Variables
+    private String message;
+    private String codedMessage;
+    private int key;
+    
+    
+    //Constructor
+    public Enigma()
+    {
+        //Set default value
+        key = 1;
+        //Instatiate the Random object
+        rand = new Random();
+    }
+    
+    private void encode()
+    {
+        //Build StringBuilder with the message
+        StringBuilder mess = new StringBuilder(message);
+        
+        //Build for loop to go through the message length
+        for(int i = 0; i < mess.length(); ++i)
+        {
+            //Declare variables
+            int temp2 = 0;
+            char ch;
+            char ch2;
+            //Convert each letter into int
+             int temp = mess.charAt(i);
+             //Add the key value to the int 
+            temp += key;
+           
+            //Check if temp > 126 if yes wrap
+           if(temp > 126)
+            {
+                   temp2 = temp - 95;
+              ch2 = (char)temp2;
+              mess.setCharAt(i, ch2);
+              //ch = mess.charAt(i);
+            }
+           //Check if temp < 126 if yes convert back to char and send into StringBuilder
+           else if(temp < 126)
+           {
+           ch = (char)temp;
+           mess.setCharAt(i, ch);
+           }
+           
+           //Send message string into coded string variable
+            codedMessage = mess.toString();
+          
+        } 
+       
+      
+    }
+    
+    private void decoded()
+    {
+        //Build StringBuilder pass in the codedMessage
+         StringBuilder mess = new StringBuilder(codedMessage);
+        
+         //Start for loop to check the length of the message
+        for(int i = 0; i < mess.length(); ++i)
+        {
+            //Declare Variables
+            char ch;
+            char ch2;
+            int temp2 = 0;
+            
+            //Convert each char into int
+            int temp = mess.charAt(i);
+            
+            //Add the key value to that int
+            temp -= key;
+            
+            //Check if temp < 32 if yes wrap
+           if(temp < 32)
+            {
+                //Wrap the temp
+                temp2 = temp + 95;
+                
+                //Convert back to char
+                ch2 = (char)temp2;
+                
+                //Pass char into StringBuilder Object
+              mess.setCharAt(i, ch2);
+            }
+           
+           //Check if the temp > 32 
+           else if(temp > 32)
+           {
+               //Convert to char
+               ch = (char)temp;
+               
+               //Pass char into the StringBuilder object
+           mess.setCharAt(i, ch);
+           }
+           
+           //Pass the message into the message string
+            message = mess.toString();
+        }
+    }
+    @Override
+    public void setMessage(String m)
+    {
+        //determine a random nuumber for key
+        
+        int max = 50;
+        int min = 1;
+        key = rand.nextInt(max - min + 1) + min;
+        
+        message = m;
+       
+        encode();
+    }
+    @Override
+    public void setMessage(String m, int k)
+    {
+        message = m;
+        key = k;
+        //Check that 1 <= key <= 50
+        if( key > 50)
+        {
+       
+        JOptionPane.showMessageDialog(null,"The selected key, " + key + " is not allowed.",
+			"Key", JOptionPane.WARNING_MESSAGE);
+        key = 1;
+        }
+        else if(key < 1)
+        {
+            
+           
+             JOptionPane.showMessageDialog(null,"The selected key, " + key + " is not allowed.",
+			"Key", JOptionPane.WARNING_MESSAGE);
+              key = 1;
+        }
+       
+       
+        encode();
+        
+    }
+    @Override
+    public void setCodedMessage(String cm, int k)
+    {
+        codedMessage = cm;
+        key = k;
+        decoded();
+    }
+    @Override
+    public String getCodedMessage()
+    {
+        return codedMessage;
+    }
+    
+    public String getMessage()
+    {
+        return message;
+    }
+    
+    @Override
+    public int getKey()
+    {
+        return key;
+    }
+}
